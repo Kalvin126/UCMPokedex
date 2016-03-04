@@ -1,4 +1,4 @@
-SwiftyPoke
+Pokedex
 ==================
 
 Pokedex based on pokeapi.co V1 API made for UC Merced ACM iOS development workshop purposes
