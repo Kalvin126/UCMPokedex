@@ -83,6 +83,8 @@ extension SearchTableViewController {
             tableView.backgroundView    = nil
         }
         else {
+            // There is no search data!
+            // Show the random pokemon background
             tableView.backgroundView = randomBackgroundVC!.view
             tableView.separatorStyle = .None
         }
@@ -104,33 +106,9 @@ extension SearchTableViewController {
         // A cell is about to be shown on the visible screen; lets configure and load data into it
         let pokemonForCell = filteredData[indexPath.row]
 
-        // Grab references to certain views by using tags
-        let spriteImageView = cell.contentView.viewWithTag(1) as! UIImageView
-        let nameLabel = cell.contentView.viewWithTag(2) as! UILabel
-
-        cell.userInteractionEnabled = false
-
-        // load in data
-        nameLabel.text = String(format: "#%03d - %@", arguments: [pokemonForCell.nationalID, pokemonForCell.name])
-        cell.tag = pokemonForCell.nationalID
-        spriteImageView.image = nil
-
-        // set sprite image
-        // Closure blocks passed may not be called imediately and by the time it is called,
-        // the cell may have already been repurposed for another pokemon, check that the
-        // cell's tag is still assigned to the pokemon.
-        SwiftyPoke.getPokémon(pokemonForCell) {
-            if cell.tag == pokemonForCell.nationalID {
-                cell.userInteractionEnabled = true
-
-                if $0.sprites.count != 0 {
-                    SwiftyPoke.getSprite($0.sprites[0]) {
-                        if cell.tag == pokemonForCell.nationalID {
-                            spriteImageView.image = UIImage(data: $0.image!)
-                        }
-                    }
-                }
-            }
+        // Cell we expect should be our custom PokédexTVCell
+        if let pokédexCell = cell as? PokédexTVCell {
+            pokédexCell.setupWithPokémon(pokemonForCell)
         }
     }
 }

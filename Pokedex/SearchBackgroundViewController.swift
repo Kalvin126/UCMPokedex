@@ -43,13 +43,11 @@ class SearchBackgroundViewController: UIViewController {
     private func setupPokémon() {
         // Use if let to automatically unwrap pokémon if it is not nil
         if let p = pokémon {
-            if p.sprites.count == 0 {
-                return
-            }
-
-            // Set Sprite
-            SwiftyPoke.getSprite(p.sprites[0]) {
-                self.spriteImageView.image = UIImage(data: $0.image!)
+            if p.sprites.count != 0 {
+                // Set Sprite
+                SwiftyPoke.getSprite(p.sprites[0]) {
+                    self.spriteImageView.image = UIImage(data: $0.image!)
+                }
             }
 
             // Set name Label
